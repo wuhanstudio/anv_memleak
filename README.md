@@ -3,17 +3,20 @@ RT-Thread 软件包，帮助检查内存泄漏。
 
     int anv_memleak_example(int argc, char const *argv[])
     {
+        // Initialization
         anv_leak_info **leaks;
         size_t leaks_count;
 
         anv_leaks_init(stdout);
 
+        // Your Code Here
         void *mem = malloc(10);
         anv_leaks_quickpeek();
 
         // free(mem);
         // anv_leaks_quickpeek();
 
+        // Get the result
         anv_leaks_stats stats;
         anv_leaks_get_stats(&stats);
 
@@ -21,6 +24,7 @@ RT-Thread 软件包，帮助检查内存泄漏。
         rt_kprintf("[count] %d malloc, %d free\n", stats.malloc_count, stats.free_count);
         rt_kprintf("[count] %d calloc, %d realloc\n", stats.calloc_count, stats.realloc_count);
 
+        // Get all leaks
         anv_leaks_get_leaks(&leaks, &leaks_count);
 
         rt_kprintf("\n");
