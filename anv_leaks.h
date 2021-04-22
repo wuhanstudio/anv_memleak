@@ -198,12 +198,12 @@ anv_leaks_get_leaks(anv_leak_info ***out_arr, size_t *out_sz)
         - anv_leaks__settings.info.free_count;
     if (delta == 0)
         goto anv__zero_all;
-    *out_arr = malloc(sizeof(anv_leak_info*) * delta);
+    *out_arr = (anv_leak_info**)malloc(sizeof(anv_leak_info*) * delta);
     anv_leaks__assert(*out_arr);
     i = 0;
     for (il = anv_leaks__settings.map.next;
         il != &anv_leaks__settings.map; il = il->next) {
-        leak = malloc(sizeof(anv_leak_info));
+        leak = (anv_leak_info*)malloc(sizeof(anv_leak_info));
         anv_leaks__assert(leak);
         leak->filename = il->filename;
         leak->line = il->line;
@@ -242,7 +242,7 @@ anv_leaks_malloc_(size_t size, const char *filename, int line, int is_realloc)
     anv_leaks__assert(size != 0);
 
     /* alloc new node */
-    node = malloc(sizeof(anv_leaks__alloc_map));
+    node = (anv_leaks__alloc_map*)malloc(sizeof(anv_leaks__alloc_map));
     anv_leaks__assert(node);
     mem = malloc(size);
     if (!mem) {
@@ -312,7 +312,7 @@ anv_leaks_calloc_(size_t num, size_t size, const char *filename, int line)
     anv_leaks__assert(size != 0);
 
     /* alloc new node */
-    node = malloc(sizeof(anv_leaks__alloc_map));
+    node = (anv_leaks__alloc_map*)malloc(sizeof(anv_leaks__alloc_map));
     anv_leaks__assert(node);
     mem = calloc(num, size);
     anv_leaks__assert(mem);
